@@ -1,36 +1,23 @@
-plugins {
-    id 'java'                               //for java-only project
-    //id 'groovy'                           //for mixed java/groovy project
-    //id 'war'                                //for genarating war files
-    //id 'org.akhikhl.gretty' version '2.0.0' //web app development plugin
-}
-
-group 'Test'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.3.1'
-}
+apply plugin: 'java'
+apply plugin: 'java-library-distribution'
 
 repositories {
     mavenCentral()
-    maven {
-        url "http://maven.restlet.org/"
-    }
 }
 
 dependencies {
-    
+
 }
 
-gretty {
-    //scanInterval = 0 //disable hot deployment
-    //httpEnabled = true
-    //httpsEnabled = true
-    //httpPort = 8765
-    //contextPath = 'app'
-    //servletContainer = 'tomcat8' //use the default (jetty)
+// Task "distZip" added by plugin "java-library-distribution":
+distZip.shouldRunAfter(build)
+
+jar {
+    // Keep jar clean:
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+
+    manifest {
+        attributes 'Main-Class': 'com.iplan.watermark.Watermark',
+                   
+    }
 }
